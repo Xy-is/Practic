@@ -1,6 +1,7 @@
 package com.example.pract.api.controller;
 
 
+import com.example.pract.api.dto.EmployeeDto;
 import com.example.pract.api.model.Employee;
 
 import com.example.pract.api.service.EmployeeService;
@@ -42,8 +43,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<List<Employee>> getEmployees(){
-        List<Employee> employees = employeeService.getAll();
+    public ResponseEntity<List<EmployeeDto>> getEmployees(){
+        List<EmployeeDto> employees = employeeService.getAll();
         if (employees.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {

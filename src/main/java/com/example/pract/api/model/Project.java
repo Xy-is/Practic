@@ -33,7 +33,7 @@ public class Project {
     @Getter
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "department_id")
     @Setter
     @Getter
@@ -43,7 +43,7 @@ public class Project {
     @Getter
     private String status;
 
-    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "project")
     @Setter
     @Getter
     private List<Task> tasks;

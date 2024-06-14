@@ -1,5 +1,6 @@
 package com.example.pract.api.service;
 
+import com.example.pract.api.dto.EmployeeDto;
 import com.example.pract.api.model.Department;
 import com.example.pract.api.model.Employee;
 import com.example.pract.api.repo.DepartmentRepo;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +34,7 @@ public class EmployeeService {
         emp.setFirstName(employee.getFirstName());
         emp.setLastName(employee.getLastName());
         emp.setPosition(employee.getPosition());
-       emp.setDepartment(employee.getDepartment());
+      emp.setDepartment(employee.getDepartment());
         employeeRepo.save(emp);
         return emp;
     }
@@ -57,7 +59,23 @@ public class EmployeeService {
         }
     }
 
-    public List<Employee> getAll() {
-        return employeeRepo.findAll();
+    public List<EmployeeDto> getAll() {
+        List<Employee> employees = employeeRepo.findAll();
+        List<EmployeeDto> employeeDtos = new ArrayList<>();
+        for (Employee employee : employees) {
+            employeeDtos.add(toEmployeeDto(employee));
+        }
+        return employeeDtos;
+    }
+
+    public EmployeeDto toEmployeeDto(Employee employee) {
+        EmployeeDto dto = new EmployeeDto();
+        dto.setId(employee.getId());
+        dto.setFirstName(employee.getFirstName());
+        dto.setLastName(employee.getLastName());
+        dto.setPosition(employee.getPosition());
+        dto.setDepartmentName(employee.getDepartment().getName());
+        System.out.println( employee.getDepartment().getName());
+        return dto;
     }
 }

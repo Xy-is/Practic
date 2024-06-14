@@ -17,7 +17,6 @@ public class Task {
         this.id = id;
         this.description = description;
         this.project = project;
-        this.employee = employee;
         this.status = status;
         this.dueDate = dueDate;
     }
@@ -38,14 +37,8 @@ public class Task {
     @Getter
     private Date dueDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "employee_id")
-    @JsonManagedReference
-    @Setter
-    @Getter
-    private Employee employee;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "project_id")
     @Setter
     @Getter

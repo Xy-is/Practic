@@ -29,18 +29,12 @@ public class Employee {
     @Getter
     private String position;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "department_id")
-    @JsonBackReference
     @Setter
     @Getter
+    @JsonBackReference
     private Department department;
-
-    @OneToMany(mappedBy = "employee")
-    @JsonBackReference
-    @Setter
-    @Getter
-    private List<Task> tasks;
 
     public Employee() {
     }

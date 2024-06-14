@@ -1,5 +1,6 @@
 package com.example.pract.api.controller;
 
+import com.example.pract.api.dto.EmployeeDto;
 import com.example.pract.api.model.Employee;
 import com.example.pract.api.service.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,7 +54,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void testGetEmployees() throws Exception {
-        when(employeeService.getAll()).thenReturn(Arrays.asList(new Employee()));
+        when(employeeService.getAll()).thenReturn(Arrays.asList(new EmployeeDto()));
         mockMvc.perform(get("/api/employee/get"))
                 .andExpect(status().isOk());
     }
