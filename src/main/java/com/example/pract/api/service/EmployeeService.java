@@ -1,8 +1,11 @@
 package com.example.pract.api.service;
 
+import com.example.pract.api.model.Department;
 import com.example.pract.api.model.Employee;
+import com.example.pract.api.repo.DepartmentRepo;
 import com.example.pract.api.repo.EmployeeRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,20 +14,25 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class EmployeeService {
-
+    @Autowired
     private final EmployeeRepo employeeRepo;
+   // @Autowired
+   // private final DepartmentRepo departmentRepo;
 
     public List<Employee> getByLastName(String lastName) {
         return employeeRepo.findAllByLastName(lastName);
     }
 
 
+
+
     public Employee create(Employee employee) {
+       // Department department = departmentRepo.findById(employee.getDepartment().getId()).orElse(null);
         Employee emp = new Employee();
         emp.setFirstName(employee.getFirstName());
         emp.setLastName(employee.getLastName());
         emp.setPosition(employee.getPosition());
-        emp.setDepartment(employee.getDepartment());
+       emp.setDepartment(employee.getDepartment());
         employeeRepo.save(emp);
         return emp;
     }

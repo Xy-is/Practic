@@ -42,7 +42,7 @@ public class TaskService {
             updatedTask.setDescription(task.getDescription());
             updatedTask.setDueDate(task.getDueDate());
             updatedTask.setStatus(task.getStatus());
-            updatedTask.setEmployee(task.getEmployee());
+            //updatedTask.setEmployee(task.getEmployee());
             return taskRepo.save(task);
         }
         return null;

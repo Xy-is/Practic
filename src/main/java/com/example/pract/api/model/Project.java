@@ -1,15 +1,11 @@
 package com.example.pract.api.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
 import java.util.List;
-
 
 @Data
 @Entity
@@ -37,25 +33,21 @@ public class Project {
     @Getter
     private String description;
 
-    @Setter
-    @Getter
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "department_id")
-    @JsonBackReference
+    @Setter
+    @Getter
     private Department department;
 
     @Setter
     @Getter
     private String status;
 
+    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
     @Setter
     @Getter
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonManagedReference
     private List<Task> tasks;
 
-
     public Project() {
-
     }
 }

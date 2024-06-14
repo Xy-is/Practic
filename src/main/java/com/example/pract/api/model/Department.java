@@ -1,6 +1,5 @@
 package com.example.pract.api.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -9,17 +8,16 @@ import lombok.Setter;
 
 import java.util.List;
 
-
 @Data
 @Entity
 @Table(name = "departments")
 public class Department {
 
-    public Department(Long id, String name, Long managerId, List<Employee> employees) {
+    public Department(Long id, String name, Long managerId, List<Project> projects) {
         this.id = id;
         this.name = name;
         this.managerId = managerId;
-        this.employees = employees;
+        this.projects = projects;
     }
 
     @Id
@@ -34,19 +32,17 @@ public class Department {
     @Getter
     private Long managerId;
 
-    @Getter
+    @OneToMany(mappedBy = "department")
+    @JsonManagedReference
     @Setter
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonBackReference
+    @Getter
     private List<Employee> employees;
 
-    @Getter
+    @OneToMany(mappedBy = "department")
     @Setter
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonManagedReference
+    @Getter
     private List<Project> projects;
 
     public Department() {
-
     }
 }

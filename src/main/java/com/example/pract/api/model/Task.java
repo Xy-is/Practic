@@ -1,6 +1,5 @@
 package com.example.pract.api.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -8,8 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.List;
-
 
 @Data
 @Entity
@@ -43,17 +40,17 @@ public class Task {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "employee_id")
-    @JsonBackReference
-    private Employee employee;
-
+    @JsonManagedReference
     @Setter
     @Getter
+    private Employee employee;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "project_id")
-    @JsonBackReference
+    @Setter
+    @Getter
     private Project project;
 
     public Task() {
-
     }
 }
