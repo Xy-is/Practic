@@ -48,10 +48,12 @@ public class DepartmentService {
         }
     }
 
-    public void delete(Long id) {
+    public boolean delete(Long id) {
         Optional<Department> departmentOptional = departmentRepo.findById(id);
         if (departmentOptional.isPresent()) {
             departmentRepo.deleteById(id);
+            return true;
         }
+        return false;
     }
 }

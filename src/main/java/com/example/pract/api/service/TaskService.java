@@ -58,10 +58,12 @@ public class TaskService {
         return null;
     }
 
-    public void deleteTask(Long id) {
+    public boolean deleteTask(Long id) {
         Optional<Task> taskOptional = taskRepo.findById(id);
         if (taskOptional.isPresent()) {
             taskRepo.delete(taskOptional.get());
+            return true;
         }
+        return false;
     }
 }
