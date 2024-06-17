@@ -1,6 +1,9 @@
 package com.example.pract.api.service;
 
+import com.example.pract.api.dto.ProjectDto;
+import com.example.pract.api.dto.TaskDto;
 import com.example.pract.api.model.Project;
+import com.example.pract.api.model.Task;
 import com.example.pract.api.repo.ProjectRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,14 +24,40 @@ public class ProjectService {
         this.projectRepo = projectRepo;
     }
 
-    public List<Project> getAllProjects() {
-        List<Project> projects = projectRepo.findAll();
-        return projects;
+    private ProjectDto convertToProjectDto(Project project) {
+        ProjectDto dto = new ProjectDto();
+        dto.setId(project.getId());
+        dto.setName(project.getName());
+        dto.setDescription(project.getDescription());
+        dto.setDepartmentName(project.getDepartment().getName());
+        dto.setStatus(project.getStatus());
+        dto.setTaskDtos(project.getTasks().stream()
+                .map(this::convertToTaskDto)
+                .collect(Collectors.toList()));
+        return dto;
     }
 
-    public Optional<Project> getProjectsById(Long id) {
-        Optional<Project> project = projectRepo.findById(id);
-        return project;
+    private TaskDto convertToTaskDto(Task task) {
+        TaskDto dto = new TaskDto();
+        dto.setId(task.getId());
+        dto.setName(task.getName());
+        dto.setDescription(task.getDescription());
+        dto.setStatus(task.getStatus());
+        dto.setDueDate(task.getDueDate());
+        dto.setProjectName(task.getProject().getName());
+        return dto;
+    }
+
+    public List<ProjectDto> getAllProjects() {
+        return projectRepo.findAll().stream()
+                .map(this::convertToProjectDto)
+                .collect(Collectors.toList());
+    }
+
+    public ProjectDto getProjectById(Long id) {
+        return projectRepo.findById(id)
+                .map(this::convertToProjectDto)
+                .orElse(null); // or throw an exception if preferred
     }
 
     public Project createProject(Project project) {

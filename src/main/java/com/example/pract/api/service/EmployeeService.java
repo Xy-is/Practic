@@ -1,9 +1,9 @@
 package com.example.pract.api.service;
 
 import com.example.pract.api.dto.EmployeeDto;
-import com.example.pract.api.model.Department;
+import com.example.pract.api.dto.ProjectDto;
 import com.example.pract.api.model.Employee;
-import com.example.pract.api.repo.DepartmentRepo;
+import com.example.pract.api.model.Project;
 import com.example.pract.api.repo.EmployeeRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +39,10 @@ public class EmployeeService {
         return emp;
     }
 
-    public void delete(String lastName) {
-        List<Employee> employees = employeeRepo.findAllByLastName(lastName);
-        for (Employee employee : employees) {
-            employeeRepo.delete(employee);
+    public void delete(Long id) {
+        Optional<Employee> employee = employeeRepo.findById(id);
+        if (employee.isPresent()) {
+            employeeRepo.deleteById(id);
         }
     }
 
@@ -74,8 +74,14 @@ public class EmployeeService {
         dto.setFirstName(employee.getFirstName());
         dto.setLastName(employee.getLastName());
         dto.setPosition(employee.getPosition());
-        dto.setDepartmentName(employee.getDepartment().getName());
-        System.out.println( employee.getDepartment().getName());
+
+        // Here's the null check for the department
+        if(employee.getDepartment() != null) {
+            dto.setDepartmentName(employee.getDepartment().getName());
+        } else {
+            dto.setDepartmentName("No Department"); // Or any default value
+        }
+
         return dto;
     }
 }

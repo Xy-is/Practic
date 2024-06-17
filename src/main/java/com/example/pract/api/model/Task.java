@@ -22,8 +22,14 @@ public class Task {
     }
 
     @Id
+    @Setter
+    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Setter
+    @Getter
+    private String name;
 
     @Setter
     @Getter

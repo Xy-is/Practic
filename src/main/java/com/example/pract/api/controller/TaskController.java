@@ -1,5 +1,6 @@
 package com.example.pract.api.controller;
 
+import com.example.pract.api.dto.TaskDto;
 import com.example.pract.api.model.Task;
 import com.example.pract.api.service.TaskService;
 import org.springframework.http.HttpStatus;
@@ -20,8 +21,8 @@ public class TaskController {
     }
 
     @GetMapping("/getall")
-    public ResponseEntity<List<Task>> getAllTasks() {
-        List<Task> tasks = taskService.getAllTasks();
+    public ResponseEntity<List<TaskDto>> getAllTasks() {
+        List<TaskDto> tasks = taskService.getAllTasks();
         if (tasks.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
@@ -30,8 +31,8 @@ public class TaskController {
     }
 
     @GetMapping("/getbyid")
-    public ResponseEntity<Optional<Task>> getTaskById(@RequestParam Long id) {
-        Optional<Task> task = taskService.getTaskById(id);
+    public ResponseEntity<Optional<TaskDto>> getTaskById(@RequestParam Long id) {
+        Optional<TaskDto> task = taskService.getTaskById(id);
         if (task.isPresent()) {
             return ResponseEntity.ok(task);
         } else {
@@ -42,6 +43,7 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<Task> createTask(@RequestBody Task task) {
         Task createdTask = taskService.createTask(task);
+        System.out.println(createdTask);
         if (createdTask != null) {
             return ResponseEntity.ok(createdTask);
         } else {

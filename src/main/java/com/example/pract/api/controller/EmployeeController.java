@@ -25,6 +25,7 @@ public class EmployeeController {
 
     @PostMapping("/create")
     public ResponseEntity createEmployee(@RequestBody Employee employee) {
+        System.out.println(employee);
         Employee emp =  employeeService.create(employee);
         if(emp != null) {
             return ResponseEntity.ok().build();
@@ -52,9 +53,9 @@ public class EmployeeController {
         }
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity delete(@RequestParam String lastName) {
-        employeeService.delete(lastName);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity delete(@PathVariable Long id) {
+        employeeService.delete(id);
         return ResponseEntity.noContent().build();
     }
 

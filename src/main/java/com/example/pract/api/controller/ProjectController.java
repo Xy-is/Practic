@@ -1,5 +1,6 @@
 package com.example.pract.api.controller;
 
+import com.example.pract.api.dto.ProjectDto;
 import com.example.pract.api.model.Project;
 import com.example.pract.api.service.ProjectService;
 import org.springframework.http.HttpStatus;
@@ -20,8 +21,8 @@ public class ProjectController {
     }
 
     @GetMapping("/getall")
-    public ResponseEntity<List<Project>> getAllProjects() {
-        List<Project> projects = projectService.getAllProjects();
+    public ResponseEntity<List<ProjectDto>> getAllProjects() {
+        List<ProjectDto> projects = projectService.getAllProjects();
         if (projects.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
@@ -29,9 +30,9 @@ public class ProjectController {
         }
     }
 
-    @GetMapping("/getbyid")
-    public ResponseEntity<Optional<Project>> getProjectsById(@RequestParam Long id) {
-        Optional<Project> projects = projectService.getProjectsById(id);
+    @GetMapping("/getbyid/{id}")
+    public ResponseEntity<Optional<ProjectDto>> getProjectsById(@PathVariable Long id) {
+        Optional<ProjectDto> projects = Optional.ofNullable(projectService.getProjectById(id));
         if (projects.isPresent()) {
             return ResponseEntity.ok(projects);
         } else {

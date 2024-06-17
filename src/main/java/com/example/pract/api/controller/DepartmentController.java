@@ -1,10 +1,13 @@
 package com.example.pract.api.controller;
 
+import com.example.pract.api.dto.DepartmentDto;
 import com.example.pract.api.model.Department;
 import com.example.pract.api.service.DepartmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/department")
@@ -15,9 +18,19 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
+    @GetMapping()
+    public ResponseEntity<List<DepartmentDto>> getAllDepartmentById() {
+        List<DepartmentDto> department = departmentService.findAllDepartment();
+        if (department != null) {
+            return ResponseEntity.ok(department);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Department> getDepartmentById(@PathVariable Long id) {
-        Department department = departmentService.findById(id);
+    public ResponseEntity<DepartmentDto> getDepartmentById(@PathVariable Long id) {
+        DepartmentDto department = departmentService.findById(id);
         if (department != null) {
             return ResponseEntity.ok(department);
         } else {

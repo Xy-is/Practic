@@ -1,13 +1,20 @@
 package com.example.pract.api.service;
 
 
+import com.example.pract.api.dto.DepartmentDto;
+import com.example.pract.api.dto.EmployeeDto;
+import com.example.pract.api.dto.ProjectDto;
 import com.example.pract.api.model.Department;
+import com.example.pract.api.model.Employee;
+import com.example.pract.api.model.Project;
 import com.example.pract.api.repo.DepartmentRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,9 +28,9 @@ public class DepartmentService {
         this.departmentRepo = departmentRepo;
     }
 
-    public Department findById(Long id) {
+    public DepartmentDto findById(Long id) {
         Optional<Department> department = departmentRepo.findById(id);
-        return department.orElse(null);
+        return department.map(this::convertToDepartmentDto).orElse(null);
     }
 
     public Department save(Department department) {
@@ -56,4 +63,49 @@ public class DepartmentService {
         }
         return false;
     }
+
+    public List<DepartmentDto> findAllDepartment() {
+        List<Department> departments = departmentRepo.findAll();
+        return departments.stream()
+                .map(this::convertToDepartmentDto)
+                .collect(Collectors.toList());
+    }
+
+    private DepartmentDto convertToDepartmentDto(Department department) {
+        DepartmentDto dto = new DepartmentDto();
+        dto.setId(department.getId());
+        dto.setName(department.getName());
+        dto.setManagerId(department.getManagerId());
+        dto.setEmployeeDtos(department.getEmployees().stream()
+                .map(this::convertToEmployeeDto)
+                .collect(Collectors.toList()));
+        dto.setProjectDtos(department.getProjects().stream()
+                .map(this::convertToProjectDto)
+                .collect(Collectors.toList())
+        );
+        return dto;
+    }
+
+    private EmployeeDto convertToEmployeeDto(Employee employee) {
+        EmployeeDto dto = new EmployeeDto();
+        dto.setId(employee.getId());
+        dto.setFirstName(employee.getFirstName());
+        dto.setLastName(employee.getLastName());
+        dto.setPosition(employee.getPosition());
+        dto.setDepartmentName(employee.getDepartment().getName()); // Assuming there is a 'getName' method in Department
+        return dto;
+    }
+
+    private ProjectDto convertToProjectDto(Project project) {
+        ProjectDto dto = new ProjectDto();
+        dto.setId(project.getId());
+        dto.setName(project.getName());
+        dto.setDescription(project.getDescription());
+        dto.setDepartmentName(project.getDepartment().getName());
+        dto.setStatus(project.getStatus());
+        return dto;
+    }
+
+
+
 }
