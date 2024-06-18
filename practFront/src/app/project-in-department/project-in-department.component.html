@@ -1,0 +1,68 @@
+<div style="display: flex; align-items: center; margin-top: 10px">
+  <mat-form-field appearance="fill" style="margin-right: 10px;">
+    <mat-label>Project Name</mat-label>
+    <input matInput placeholder="Enter project name" [(ngModel)]="newProject.name">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="margin-right: 10px;">
+    <mat-label>Description</mat-label>
+    <input matInput placeholder="Enter project description" [(ngModel)]="newProject.description">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="margin-right: 10px;">
+    <mat-label>Status</mat-label>
+    <input matInput placeholder="Enter project status" [(ngModel)]="newProject.status">
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" (click)="addProject()">Create</button>
+</div>
+
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <!-- ID Column -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> ID</th>
+    <td mat-cell *matCellDef="let project"> {{ project.id }}</td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name</th>
+    <td mat-cell *matCellDef="let project"> {{ project.name }}</td>
+  </ng-container>
+
+  <!-- Description Column -->
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef> Description</th>
+    <td mat-cell *matCellDef="let project"> {{ project.description }}</td>
+  </ng-container>
+
+  <!-- Department Name Column -->
+  <ng-container matColumnDef="departmentName">
+    <th mat-header-cell *matHeaderCellDef> Department Name</th>
+    <td mat-cell *matCellDef="let project"> {{ project.departmentName }}</td>
+  </ng-container>
+
+  <!-- Status Column -->
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> Status</th>
+    <td mat-cell *matCellDef="let project"> {{ project.status }}</td>
+  </ng-container>
+
+  <!-- Delete Column -->
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef> Delete</th>
+    <td mat-cell *matCellDef="let project">
+      <button mat-icon-button color="warn" (click)="openConfirmDialog(project.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <!-- Header and Row Definitions -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>
+

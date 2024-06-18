@@ -1,0 +1,86 @@
+<div style="display: flex; align-items: center; margin-top: 10px">
+  <mat-form-field appearance="fill" style="margin-right: 10px;">
+    <mat-label>Project Name</mat-label>
+    <input matInput placeholder="Input project name" [(ngModel)]="newProject.name">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="margin-right: 10px;">
+    <mat-label>Description</mat-label>
+    <input matInput placeholder="Input project description" [(ngModel)]="newProject.description">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="margin-right: 10px;">
+    <mat-label>Department Name</mat-label>
+    <input matInput placeholder="Input department name" [(ngModel)]="newProject.departmentName">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="margin-right: 10px;">
+    <mat-label>Status</mat-label>
+    <input matInput placeholder="Input project status" [(ngModel)]="newProject.status">
+  </mat-form-field>
+
+  <!-- Add more input fields if needed based on your Project interface -->
+
+  <button mat-raised-button color="primary" (click)="addProject()">Create</button>
+</div>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <!-- id Column -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> ID</th>
+    <td mat-cell *matCellDef="let element"> {{ element.id }}</td>
+  </ng-container>
+
+  <!-- name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Project Name</th>
+    <td mat-cell *matCellDef="let element"> {{ element.name }}</td>
+  </ng-container>
+
+  <!-- description Column -->
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef> Description</th>
+    <td mat-cell *matCellDef="let element"> {{ element.description }}</td>
+  </ng-container>
+
+  <!-- departmentName Column -->
+  <ng-container matColumnDef="departmentName">
+    <th mat-header-cell *matHeaderCellDef> Department Name</th>
+    <td mat-cell *matCellDef="let element"> {{ element.departmentName }}</td>
+  </ng-container>
+
+  <!-- status Column -->
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> Status</th>
+    <td mat-cell *matCellDef="let element"> {{ element.status }}</td>
+  </ng-container>
+
+  <!-- taskNames Column -->
+  <ng-container matColumnDef="taskDtos">
+    <th mat-header-cell *matHeaderCellDef> Tasks</th>
+    <td mat-cell (click)="openProject(element.id)" *matCellDef="let element">
+      <div *ngFor="let task of element.taskDtos">
+        {{ task.name }}
+      </div>
+    </td>
+  </ng-container>
+
+  <!-- delete Column -->
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef> Delete</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button color="warn" (click)="openConfirmDialog(element.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+
+  <!-- Add more columns if needed based on your Project interface -->
+
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
