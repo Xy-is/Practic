@@ -1,0 +1,19 @@
+<div style="display: flex; justify-content: center; align-items: center; height: 93vh;">
+  <div style="box-shadow: 0 10px 100px rgba(0, 0, 0, 0.4); display: flex; flex-direction: column; align-items: center; border: 1px solid var(--mdc-text-button-label-text-color); border-radius: 40px; padding: 20px; width: 300px;">
+    <h2 style="color:#494949 ">Регистрация</h2>
+    <mat-form-field>
+      <input matInput placeholder="Email" type="email" [(ngModel)]="email">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Username" type="text" [(ngModel)]="username">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Password" type="password" [(ngModel)]="password">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Repeat Password" type="password" [(ngModel)]="repeatPassword">
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="onRegisterClick()">Зарегистрироваться</button>
+
+  </div>
+</div>

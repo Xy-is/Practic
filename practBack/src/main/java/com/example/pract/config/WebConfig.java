@@ -24,7 +24,7 @@ public class WebConfig {
                                 HttpMethod.PUT.name(),
                                 HttpMethod.DELETE.name(),
                                 HttpMethod.OPTIONS.name())
-                        .allowedHeaders(HttpHeaders.CONTENT_TYPE);
+                        .allowedHeaders(HttpHeaders.CONTENT_TYPE,HttpHeaders.CONTENT_TYPE, "Authorization");
 
             }
         };

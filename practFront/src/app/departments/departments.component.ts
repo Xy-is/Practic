@@ -28,6 +28,7 @@ import {ConfirmDialogComponent} from "../confirm-dialog-component/confirm-dialog
     MatInput,
     MatLabel,
     NgForOf,
+
   ],
   templateUrl: './departments.component.html',
   styleUrl: './departments.component.css'
@@ -46,6 +47,7 @@ export class DepartmentsComponent implements OnInit {
 
   ngOnInit() {
     this.updateDepartment();
+
   }
 
   private updateDepartment() {

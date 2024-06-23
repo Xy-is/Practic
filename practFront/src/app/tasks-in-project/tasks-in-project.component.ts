@@ -6,16 +6,24 @@ import {MatButton, MatIconButton} from "@angular/material/button";
 import {NgForOf} from "@angular/common";
 import {MatDialog} from "@angular/material/dialog";
 import {FormsModule} from "@angular/forms";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatFormField, MatHint, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {TasksService} from "../tasks/tasks.service";
 import {TasksInProjectService} from "./tasks-in-project.service";
 import {ConfirmDialogComponent} from "../confirm-dialog-component/confirm-dialog-component.component";
+import {
+  MatDatepicker,
+  MatDatepickerInput,
+  MatDatepickerModule,
+  MatDatepickerToggle
+} from "@angular/material/datepicker";
+import {provideNativeDateAdapter} from "@angular/material/core";
 
 
 @Component({
   selector: 'app-tasks-in-project',
   standalone: true,
+  providers: [provideNativeDateAdapter()],
   imports: [
     MatTableModule,
     MatIcon,
@@ -25,7 +33,14 @@ import {ConfirmDialogComponent} from "../confirm-dialog-component/confirm-dialog
     MatButton,
     MatFormField,
     MatInput,
-    MatLabel
+    MatLabel,
+    MatDatepicker,
+    MatDatepickerInput,
+    MatDatepickerToggle,
+    MatDatepicker,
+    MatDatepickerModule,
+    MatHint,
+    MatSuffix
   ],
   templateUrl: './tasks-in-project.component.html',
   styleUrls: ['./tasks-in-project.component.css']
@@ -35,6 +50,9 @@ export class TasksInProjectComponent implements OnInit {
   tasks: any[] = [];
   project: any;
   noData: string | undefined;
+  private readonly _currentYear = new Date().getFullYear();
+  readonly minDate = new Date(this._currentYear - 20, 0, 1);
+  readonly maxDate = new Date(this._currentYear + 1, 11, 31);
 
   constructor(
     private route: ActivatedRoute,
@@ -46,7 +64,6 @@ export class TasksInProjectComponent implements OnInit {
 
   ngOnInit() {
     this.updateProject();
-    // Fetch tasks using the projectId
   }
 
   displayedColumns: string[] = ['id', 'name', 'description', 'status', 'dueDate', 'projectName', 'delete'];
@@ -73,7 +90,6 @@ export class TasksInProjectComponent implements OnInit {
     }
   }
 
-  // Add methods for openConfirmDialog and deleteTask similar to deleteEmployee
 
   addTask() {
     const newTaskData = {

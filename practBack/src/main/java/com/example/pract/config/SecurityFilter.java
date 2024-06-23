@@ -35,6 +35,9 @@ public class SecurityFilter {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests( authConfig -> {
                     authConfig.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll();
+                    authConfig.requestMatchers(HttpMethod.GET, "/api/auth/get").hasAuthority(Permission.CHANGE_DEPARTMENT.name());
+                    authConfig.requestMatchers(HttpMethod.PUT, "/api/auth/**").hasAuthority(Permission.CHANGE_DEPARTMENT.name());
+                    authConfig.requestMatchers(HttpMethod.DELETE, "/api/auth/delete/**").hasAuthority(Permission.CHANGE_DEPARTMENT.name());
                     authConfig.requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll();
                     authConfig.requestMatchers(HttpMethod.GET, "/v3/api-docs/**").permitAll();
                     authConfig.requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll();

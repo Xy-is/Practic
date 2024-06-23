@@ -4,17 +4,25 @@ import {MatButton, MatIconButton} from "@angular/material/button";
 import {
   MatTableModule
 } from "@angular/material/table";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatFormField, MatFormFieldModule, MatLabel} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
-import {MatInput} from "@angular/material/input";
+import {MatInput, MatInputModule} from "@angular/material/input";
 import {NgForOf} from "@angular/common";
 import {TasksService} from "./tasks.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../confirm-dialog-component/confirm-dialog-component.component";
+import {
+  MatDatepicker,
+  MatDatepickerInput,
+  MatDatepickerModule,
+  MatDatepickerToggle
+} from "@angular/material/datepicker";
+import {provideNativeDateAdapter} from "@angular/material/core";
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
+  providers: [provideNativeDateAdapter()],
   imports: [
     FormsModule,
     MatButton,
@@ -24,7 +32,13 @@ import {ConfirmDialogComponent} from "../confirm-dialog-component/confirm-dialog
     MatIconButton,
     MatInput,
     MatLabel,
-    NgForOf
+    NgForOf,
+    MatDatepickerInput,
+    MatDatepickerToggle,
+    MatDatepicker,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
   ],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css'
@@ -35,6 +49,10 @@ export class TasksComponent {
   noData: string | undefined;
   displayedColumns: string[] = ['id', 'name', 'description', 'status', 'dueDate', 'projectName', 'delete'];
   dataSource = this.tasks;
+  private readonly _currentYear = new Date().getFullYear();
+  readonly minDate = new Date(this._currentYear - 20, 0, 1);
+  readonly maxDate = new Date(this._currentYear + 1, 11, 31);
+
 
   constructor(private tasksService: TasksService, public dialog: MatDialog) {
     this.tasks = [];

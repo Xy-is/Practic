@@ -28,7 +28,7 @@ public class JwtService {
         Date expiration = new Date(issuedAt.getTime() + (EXPIRATION_MINUTES * 60 * 1000));
         return Jwts.builder()
                 .setClaims(extraClaims)
-                .setSubject(user.getUsername())
+                .setSubject(user.getEmail())
                 .setIssuedAt(issuedAt)
                 .setExpiration(expiration)
                 .signWith(generateKey(), SignatureAlgorithm.HS256)

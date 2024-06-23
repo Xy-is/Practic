@@ -14,10 +14,18 @@
     <input matInput placeholder="Input description" [(ngModel)]="newTask.status">
   </mat-form-field>
 
-  <mat-form-field appearance="fill" style="margin-right: 10px;">
-    <mat-label>dueDate</mat-label>
-    <input matInput placeholder="Input description" [(ngModel)]="newTask.dueDate">
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Choose a date</mat-label>
+    <input matInput placeholder="Input 2" [min]="minDate" [(ngModel)]="newTask.dueDate" [max]="maxDate" [matDatepicker]="picker" />
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
+<!--  <mat-form-field appearance="fill" style="margin-right: 10px;">-->
+<!--    <mat-label>dueDate</mat-label>-->
+<!--    <input matInput placeholder="Input description" [(ngModel)]="newTask.dueDate">-->
+<!--  </mat-form-field>-->
 
   <button mat-raised-button color="primary" (click)="addTask()">Create Task</button>
 </div>
@@ -47,12 +55,13 @@
     <th mat-header-cell *matHeaderCellDef> Status</th>
     <td mat-cell *matCellDef="let task"> {{ task.status }}</td>
   </ng-container>
-
+2
   <!-- Due Date Column -->
   <ng-container matColumnDef="dueDate">
-    <th mat-header-cell *matHeaderCellDef> Due Date</th>
+    <th mat-header-cell *matHeaderCellDef> dueDate</th>
     <td mat-cell *matCellDef="let task"> {{ task.dueDate }}</td>
   </ng-container>
+
 
   <!-- Project Name Column -->
   <ng-container matColumnDef="projectName">

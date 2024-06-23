@@ -6,3 +6,18 @@ mat-toolbar {
 mat-toolbar button {
   margin: 0 10px;
 }
+
+.mat-button.mat-admin {
+  background-color: red;
+  color: white;
+}
+
+.mat-button.mat-employee {
+  background-color: blue;
+  color: white;
+}
+
+.mat-button.mat-manager {
+  background-color: green;
+  color: white;
+}

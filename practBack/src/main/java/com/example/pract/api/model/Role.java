@@ -5,6 +5,8 @@ import java.util.List;
 
 public enum Role {
 
+    USER(Arrays.asList()),
+
     EMPLOYEE(Arrays.asList(Permission.READ_PROJECT, Permission.CHANGE_TASK, Permission.READ_TASK)),
 
     MANAGER(Arrays.asList(Permission.READ_EMPLOYEE, Permission.CHANGE_TASK, Permission.READ_TASK, Permission.CHANGE_PROJECT, Permission.READ_PROJECT)),

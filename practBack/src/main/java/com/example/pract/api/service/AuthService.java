@@ -1,7 +1,10 @@
 package com.example.pract.api.service;
 
+import com.example.pract.api.dto.EmployeeDto;
 import com.example.pract.api.dto.auth.AuthRequest;
 import com.example.pract.api.dto.auth.AuthResponse;
+import com.example.pract.api.model.Employee;
+import com.example.pract.api.model.Role;
 import com.example.pract.api.model.User;
 import com.example.pract.api.repo.UserRepo;
 import com.example.pract.config.JwtService;
@@ -12,8 +15,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
+import static java.lang.String.valueOf;
 
 @Service
 public class AuthService {
@@ -35,25 +39,33 @@ public class AuthService {
 
 
     public AuthResponse register(User request){
-        var user = new User();
-        user.setName(request.getName());
-        user.setUsername(request.getUsername());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(request.getRole());
-        userRepository.save(user);
-        String token = jwtService.generateToken(user, generateExtraClaims(user));
-        return  new AuthResponse(token);
+        Optional<User> existingUser = userRepository.findByEmail(request.getEmail());
+        if (existingUser.isPresent()) {
+            return null;
+        } else {
+            // Пользователь с таким email не существует, можно продолжить регистрацию
+            var user = new User();
+            user.setUsername(request.getUsername());
+            user.setEmail(request.getEmail());
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+            user.setRole(request.getRole());
+            userRepository.save(user);
+            String token = jwtService.generateToken(user, generateExtraClaims(user));
+            return new AuthResponse(token);
+        }
     }
+
 
 
 
 
     public AuthResponse login(AuthRequest authenticationRequest){
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                authenticationRequest.getUsername(), authenticationRequest.getPassword()
+                authenticationRequest.getEmail(), authenticationRequest.getPassword()
         );
         authenticationManager.authenticate(authToken);
-        User user = userRepository.findByUsername(authenticationRequest.getUsername()).get();
+        System.out.println(authenticationRequest);
+        User user = userRepository.findByEmail(authenticationRequest.getEmail()).get();
         String jwt = jwtService.generateToken(user, generateExtraClaims(user));
         return new AuthResponse(jwt);
     }
@@ -63,8 +75,30 @@ public class AuthService {
 
     private Map<String, Object> generateExtraClaims(User user) {
         Map<String, Object> extraClaims = new HashMap<>();
-        extraClaims.put("name", user.getName());
         extraClaims.put("role", user.getRole().name());
         return extraClaims;
+    }
+
+    public List<User> getAll() {
+        List<User> users = userRepository.findAll();
+        return users;
+    }
+
+    public void delete(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            userRepository.deleteById(id);
+        }
+    }
+
+    public void update(Long id, String role) {
+        Optional<User> findingUser = userRepository.findById(id);
+        if (findingUser.isPresent()) {
+            User existingUser = findingUser.get();
+            existingUser.setRole(Role.valueOf(role));
+            userRepository.save(existingUser);
+        } else {
+            System.out.println("Пользователь с ID " + id + " не найден.");
+        }
     }
 }

@@ -1,7 +1,18 @@
-<mat-toolbar color="primary">
-  <button mat-button color="primary" routerLink="/employees">Employees</button>
-  <button mat-button color="primary" routerLink="/departments">Departments</button>
-  <button mat-button color="primary" routerLink="/tasks">Tasks</button>
-  <button mat-button color="primary" routerLink="/projects">Projects</button>
+<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayout="row" style="width: 1px" fxLayoutAlign="start center">
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <button mat-button color="primary" routerLink="/employees">Employees</button>
+    <button mat-button color="primary" routerLink="/departments">Departments</button>
+    <button mat-button color="primary" routerLink="/tasks">Tasks</button>
+    <button mat-button color="primary" routerLink="/projects">Projects</button>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="end center">
+    <button mat-button color="primary" routerLink="/login" *ngIf="!hasJwtToken()">Login</button>
+    <button mat-button color="primary" routerLink="/register" *ngIf="!hasJwtToken()">Register</button>
+    <button mat-button color="primary" routerLink="/admin" *ngIf="hasAdmin()">Admin panel</button>
+    <button  mat-button color="primary" (click)="openConfirmDialog()" *ngIf="hasJwtToken()">{{ username }} - {{role}}</button>
+  </div>
 </mat-toolbar>
 <router-outlet></router-outlet>

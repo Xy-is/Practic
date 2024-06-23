@@ -93,7 +93,7 @@ export class ProjectInDepartmentComponent implements OnInit {
       name: this.newProject.name,
       description: this.newProject.description,
       department: {
-        id: this.department.id // Use the current department's ID
+        id: this.department.id
       },
       status: this.newProject.status
     };
@@ -102,7 +102,7 @@ export class ProjectInDepartmentComponent implements OnInit {
     this.projectsService.createProject(newProjectData).subscribe(
       (response) => {
         console.log('Project created:', response);
-        this.updateDepartment(); // Refresh the list of projects
+        this.updateDepartment();
       },
       (error) => {
         console.error('Error creating project:', error);
@@ -116,7 +116,7 @@ export class ProjectInDepartmentComponent implements OnInit {
       name: this.newProject.name,
       description: this.newProject.description,
       department: {
-        id: this.department.id // Use the current department's ID
+        id: this.department.id
       },
       status: this.newProject.status
     };
@@ -125,7 +125,7 @@ export class ProjectInDepartmentComponent implements OnInit {
     this.projectsService.createProject(updatedProjectData).subscribe(
       (response) => {
         console.log('Project updated:', response);
-        this.updateDepartment(); // Refresh the list of projects
+        this.updateDepartment();
       },
       (error) => {
         console.error('Error updating project:', error);

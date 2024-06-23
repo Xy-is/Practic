@@ -14,9 +14,17 @@
     <input matInput placeholder="Input 2" [(ngModel)]="newTask.status">
   </mat-form-field>
 
-  <mat-form-field appearance="fill" style="margin-right: 10px;">
-    <mat-label>dueDate</mat-label>
-    <input matInput placeholder="Input 2" [(ngModel)]="newTask.dueDate">
+<!--  <mat-form-field appearance="fill" style="margin-right: 10px;">-->
+<!--    <mat-label>dueDate</mat-label>-->
+<!--    <input matInput placeholder="Input 2" [(ngModel)]="newTask.dueDate">-->
+<!--  </mat-form-field>-->
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Choose a date</mat-label>
+    <input matInput placeholder="Input 2" [min]="minDate" [(ngModel)]="newTask.dueDate" [max]="maxDate" [matDatepicker]="picker" />
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 
 
